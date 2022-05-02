@@ -1,9 +1,9 @@
 import datetime
 
 from flask import Blueprint, request, jsonify
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
-from utility.constant import BASE_URL
+from utility.constant import BASE_URL, DEFAULT_PROFILE_IMG
 from model.User import Customer
 from model.Address import Address
 from utility.payload import address_object_to_json
@@ -33,13 +33,11 @@ def signup():
     if current_customer is not None:
         return f"User with {request.form['username']} or {request.form['email']} already exists, Try Again..."
     else:
-        hashed_passwd = generate_password_hash(request.form['password'])
 
         customer = Customer(username=request.form['username'], title=request.form['title'], email=request.form['email'],
-                            phone=request.form['phone'], first_name=request.form['first_name'],
-                            last_name=request.form['last_name'],
-                            middle_name=request.form['middle_name'], gender=request.form['gender'],
-                            password=hashed_passwd)
+                            phone=request.form['phone'], first_name=request.form['first_name'], dob=request.form['dob'],
+                            last_name=request.form['last_name'], middle_name=request.form['middle_name'],
+                            gender=request.form['gender'], password=request.form['password'], profile_image_url=DEFAULT_PROFILE_IMG)
         customer.save_to_db()
         return 'Signup Successful'
 
@@ -60,6 +58,7 @@ def get_user_profile():
         dateOfBirth=customer.dob,
         gender=customer.gender,
         phoneNumber=customer.phone,
+        profilePicture=customer.profile_image_url,
         addresses=address_object_to_json(customer_addresses),
     )
 
