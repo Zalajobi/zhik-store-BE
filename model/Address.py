@@ -35,3 +35,8 @@ class Address(db.Model):
     @classmethod
     def find_all_by_username(cls, username):
         return cls.query.filter_by(username=username).all()
+
+    @classmethod
+    def delete_one_by_id(cls, id):
+        cls.query.filter_by(id=id).delete()
+        db.session.commit()

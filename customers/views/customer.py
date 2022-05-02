@@ -14,8 +14,11 @@ user_blueprint = Blueprint('authentication', __name__, url_prefix=f'{BASE_URL}us
 
 @user_blueprint.route('/login', methods=['POST'])
 def login():
+    print(f"Username {request.form['username']} Password {request.form['username']}")
+
     current_customer = Customer.find_by_username(request.form['username']) or \
                        Customer.find_by_email(request.form['username'])
+
     if current_customer is None:
         return 'Invalid Username or Email, Please check credentials'
     elif check_password_hash(current_customer.password, request.form['password']):
@@ -33,8 +36,10 @@ def signup():
         hashed_passwd = generate_password_hash(request.form['password'])
 
         customer = Customer(username=request.form['username'], title=request.form['title'], email=request.form['email'],
-                            phone=request.form['phone'], first_name=request.form['first_name'], last_name=request.form['last_name'],
-                            middle_name=request.form['middle_name'], gender=request.form['gender'], password=hashed_passwd)
+                            phone=request.form['phone'], first_name=request.form['first_name'],
+                            last_name=request.form['last_name'],
+                            middle_name=request.form['middle_name'], gender=request.form['gender'],
+                            password=hashed_passwd)
         customer.save_to_db()
         return 'Signup Successful'
 
@@ -57,18 +62,6 @@ def get_user_profile():
         phoneNumber=customer.phone,
         addresses=address_object_to_json(customer_addresses),
     )
-
-
-@user_blueprint.route('/address/add', methods=['POST'])
-@jwt_required()
-def add_address():
-    username = get_jwt_identity()
-    address = Address(perm_address=request.form['address'], country=request.form['country'], state=request.form['state'],
-                      house_number=request.form['house_number'], zip_code=request.form['zip_code'],
-                      flat_number=request.form['flat_number'], username=username)
-
-    address.save_to_db()
-    return 'New address added successfully'
 
 
 @user_blueprint.route('/hello', methods=['GET'])
