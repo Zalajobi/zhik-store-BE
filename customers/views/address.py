@@ -1,8 +1,10 @@
-from flask import request, Blueprint
+import jsonify as jsonify
+from flask import request, Blueprint, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from model.User import Customer
 from model.Address import Address
 from utility.constant import BASE_URL
+from utility.payload import address_paginate_object_to_json
 
 address_blueprint = Blueprint('address', __name__, url_prefix=f'{BASE_URL}user/address')
 
@@ -27,3 +29,15 @@ def delete_address():
         return 'Address Deleted Successfully'
     except:
         return 'Exception occurred while deleting address'
+
+
+@address_blueprint.route('/get/paginate/<page>', methods=['GET'])
+@jwt_required()
+def get_user_address_pagination(page):
+    username = get_jwt_identity()
+
+    address = Address.query.filter_by(username=username).order_by(Address.id.desc()).paginate(page=int(page), per_page=3, error_out=False)
+    return jsonify(
+        maxPage=Address.query.filter_by(username=username).count() / 3,
+        address=address_paginate_object_to_json(address),
+    )
