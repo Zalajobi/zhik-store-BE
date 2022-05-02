@@ -40,3 +40,7 @@ class Address(db.Model):
     def delete_one_by_id(cls, id):
         cls.query.filter_by(id=id).delete()
         db.session.commit()
+
+    @classmethod
+    def get_one_by_username_id(cls, username, id):
+        return cls.query.filter_by(username=username, id=id).first()
