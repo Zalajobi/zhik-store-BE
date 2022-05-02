@@ -35,16 +35,22 @@ app.register_blueprint(address_blueprint)
 
 @app.route('/')
 def intro():
-    # open_json = open('utility/zalajobi.json')
+    # open_json = open('static/data/json/zalajobi.json')
     # data = json.load(open_json)
     # image = send_from_directory('static', 'image/default_profile_pic.jpeg')
     # image_url = 'https://ik.imagekit.io/zalajobi/zhik-store/default_profile_pic_y4-z9eBo7.jpeg?ik-sdk-version=javascript-1.4.3&updatedAt=1651485516772'
-
+    #
+    # all_customer = Customer.find_by_username('zalajobi')
+    # address = Address.find_all_by_username('zalajobi')
+    # for user_address in address:
+    #     db.session.query(Address).filter_by(id=user_address.id).delete()
+    # db.session.commit()
+    #
     # for all_address in data:
-    #     address = Address(perm_address=all_address['perm_address'], country=all_address['country'], state=all_address['state'],
-    #                       house_number=all_address['house_number'], flat_number=all_address['flat_number'],
-    #                       zip_code=all_address['zip_code'], username='zalajobi')
-    #     address.save_to_db()
+        # address = Address(perm_address=all_address['perm_address'], country=all_address['country'], state=all_address['state'],
+        #                   house_number=all_address['house_number'], flat_number=all_address['flat_number'],
+        #                   zip_code=all_address['zip_code'], username='zalajobi')
+        # address.save_to_db()
     return 'Welcome to ZhikStores'
 
 
