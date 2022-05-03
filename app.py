@@ -14,6 +14,7 @@ from model.User import Customer
 from model.Address import Address
 from utility.constant import DATABASE_URL, SECRET_KEY
 from utility.environ import set_environment_variables
+# from utility.libraries import imagekit
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL

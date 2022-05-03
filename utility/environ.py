@@ -12,4 +12,5 @@ def set_environment_variables():
     os.environ['IMAGEKIT_URL_ENDPOINT'] = 'https://ik.imagekit.io/zalajobi/zhik-store-profile/?tr=h-300,w-300'
     os.environ['IMAGEKIT_CUSTOMER_PROFILE_BASEURL'] = 'https://ik.imagekit.io/zalajobi/zhik-store-profile/'
     os.environ['IMAGEKIT_PUBLIC_KEY'] = 'public_cMLW/yO+SwcUyNciAsBgMY8tq5E='
-    os.environ['IMAGEKIT_PRIVATE_KEY']= 'private_prDlb8HOrY9Z/mfviw2HLtd93r0='
+    os.environ['IMAGEKIT_PRIVATE_KEY'] = 'private_prDlb8HOrY9Z/mfviw2HLtd93r0='
+    os.environ['DEFAULT_PROFILE_IMG'] = 'https://ik.imagekit.io/zalajobi/zhik-store/default_profile_pic_y4-z9eBo7.jpeg?ik-sdk-version=javascript-1.4.3&updatedAt=1651485516772'
