@@ -1,5 +1,13 @@
-BASE_URL = '/api/v1/zhik/store/commerce/'
-SECRET_KEY = 'OLIxKOeueM-pIpOABjnBL-OvNN2Md8lB-TlKeHHJKUj-mQVlbMVT2T-0WORlcJGdu-mgZFCjrpEb-FlbKG9mIKm-nuMIBqjSup-UiFSQeavIx'
-DATABASE_URL = 'postgresql://postgres:postgres@localhost:5432/zhik-store'
-# DATABASE_URL = 'postgres://vkligerp:sWYam4V9euVH_VXuOlLlrcaJvtVLC2za@manny.db.elephantsql.com/vkligerp'
-DEFAULT_PROFILE_IMG = 'https://ik.imagekit.io/zalajobi/zhik-store/default_profile_pic_y4-z9eBo7.jpeg?ik-sdk-version=javascript-1.4.3&updatedAt=1651485516772'
+import os
+
+BASE_URL = os.getenv('BASE_URL')
+SECRET_KEY = os.getenv('SECRET_KEY')
+DATABASE_URL = os.getenv('DATABASE_URL')
+CLOUDINARY_SECRET = os.getenv('CLOUDINARY_SECRET')
+CLOUDINARY_NAME = os.getenv('CLOUDINARY_NAME')
+CLOUDINARY_URL = os.getenv('CLOUDINARY_URL')
+CLOUDINARY_KEY = os.getenv('CLOUDINARY_KEY')
+IMAGEKIT_URL_ENDPOINT = os.getenv('IMAGEKIT_URL_ENDPOINT')
+IMAGEKIT_CUSTOMER_PROFILE_BASEURL = os.getenv('IMAGEKIT_CUSTOMER_PROFILE_BASEURL')
+IMAGEKIT_PUBLIC_KEY = os.getenv('IMAGEKIT_PUBLIC_KEY')
+IMAGEKIT_PRIVATE_KEY = os.getenv('IMAGEKIT_PRIVATE_KEY')

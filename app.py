@@ -1,15 +1,19 @@
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, jsonify
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
-import json
+import cloudinary
+from cloudinary.uploader import upload
+from imagekitio import ImageKit
+import os
 
 from customers.views.address import address_blueprint
 from customers.views.customer import user_blueprint
 from db import db
-from utility.constant import DATABASE_URL, SECRET_KEY
 from model.User import Customer
 from model.Address import Address
+from utility.constant import DATABASE_URL, SECRET_KEY
+from utility.environ import set_environment_variables
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
@@ -31,27 +35,34 @@ def create_tables():
 # Blueprints
 app.register_blueprint(user_blueprint)
 app.register_blueprint(address_blueprint)
+set_environment_variables()
 
 
-@app.route('/')
-def intro():
-    # open_json = open('static/data/json/zalajobi.json')
-    # data = json.load(open_json)
-    # image = send_from_directory('static', 'image/default_profile_pic.jpeg')
-    # image_url = 'https://ik.imagekit.io/zalajobi/zhik-store/default_profile_pic_y4-z9eBo7.jpeg?ik-sdk-version=javascript-1.4.3&updatedAt=1651485516772'
-    #
-    # all_customer = Customer.find_by_username('zalajobi')
-    # address = Address.find_all_by_username('zalajobi')
-    # for user_address in address:
-    #     db.session.query(Address).filter_by(id=user_address.id).delete()
-    # db.session.commit()
-    #
-    # for all_address in data:
-        # address = Address(perm_address=all_address['perm_address'], country=all_address['country'], state=all_address['state'],
-        #                   house_number=all_address['house_number'], flat_number=all_address['flat_number'],
-        #                   zip_code=all_address['zip_code'], username='zalajobi')
-        # address.save_to_db()
-    return 'Welcome to ZhikStores'
+# cloudinary.config(cloud_name='zalajobi', api_key='419976814271589', api_secret='tSbI9om-kAb9aqd-Xa4hejtCSaE')
+cloudinary.config(cloud_name=os.getenv('CLOUDINARY_NAME'), api_key=os.getenv('CLOUDINARY_KEY'), api_secret=os.getenv('SECRET_KEY'))
+imagekit = ImageKit(private_key=os.getenv('IMAGEKIT_PRIVATE_KEY'), public_key=os.getenv('IMAGEKIT_PUBLIC_KEY'), url_endpoint=os.getenv('IMAGEKIT_URL_ENDPOINT'))
+
+
+@app.route('/', methods=['GET'])
+def upload_file():
+    image = send_from_directory('static', 'image/default_profile_pic.jpeg')
+
+    imagekit_url = imagekit.upload(
+        file=open('static/image/default_profile_pic.jpeg', "rb"),
+        file_name="profile_pic.jpg",
+        options={
+            "response_fields": ["is_private_file", "tags"],
+            "tags": ["profile_pic", "username"]
+        },
+    )
+
+    return jsonify(imagekit_url)
+
+
+def dump_response(response):
+    print("Upload response:")
+    for key in sorted(response.keys()):
+        print("  %s: %s" % (key, response[key]))
 
 
 if __name__ == '__main__':
