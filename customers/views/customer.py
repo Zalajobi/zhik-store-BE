@@ -1,14 +1,17 @@
 import datetime
 import os
-
 from flask import Blueprint, request, jsonify
 from werkzeug.security import check_password_hash
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
+from imagekitio import ImageKit
+
 from model.User import Customer
 from model.Address import Address
-from utility.constant import BASE_URL
+from utility.constant import BASE_URL, DEFAULT_PROFILE_IMG
 from utility.payload import address_object_to_json
 from db import db
+
+# from app import imagekit
 
 user_blueprint = Blueprint('authentication', __name__, url_prefix=f"{BASE_URL}user")
 
@@ -39,7 +42,7 @@ def signup():
                             phone=request.form['phone'], first_name=request.form['first_name'], dob=request.form['dob'],
                             last_name=request.form['last_name'], middle_name=request.form['middle_name'],
                             gender=request.form['gender'], password=request.form['password'],
-                            profile_image_url='DEFAULT_PROFILE_IMG')
+                            profile_image_url=DEFAULT_PROFILE_IMG)
         customer.save_to_db()
         return 'Signup Successful'
 
@@ -63,6 +66,34 @@ def get_user_profile():
         profilePicture=customer.profile_image_url,
         addresses=address_object_to_json(customer_addresses),
     )
+
+
+@user_blueprint.route('/profile/picture/upload', methods=['POST'])
+@jwt_required()
+def upload_profile_picture():
+    username = get_jwt_identity()
+    image_file = request.files['image']
+    imagekit = ImageKit(private_key=os.getenv('IMAGEKIT_PRIVATE_KEY'), public_key=os.getenv('IMAGEKIT_PUBLIC_KEY'),
+                        url_endpoint=os.getenv('IMAGEKIT_URL_ENDPOINT'))
+
+    customer = Customer.find_by_username(username)
+
+    try:
+        imagekit_url = imagekit.upload(
+            file=image_file,
+            file_name="profile_pic.jpg",
+            options={
+                "response_fields": ["is_private_file", "tags"],
+                "tags": ["profile_pic", "username"]
+            },
+        )
+        customer.profile_image_url = imagekit_url['response']['url']
+        db.session.commit()
+        return "Image upload Successful"
+    except:
+        print('Image Upload Failed')
+
+    return "Image Upload Failed"
 
 
 @user_blueprint.route('/hello', methods=['GET'])
