@@ -1,15 +1,16 @@
 import datetime
+import os
 
 from flask import Blueprint, request, jsonify
 from werkzeug.security import check_password_hash
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
-from utility.constant import BASE_URL, DEFAULT_PROFILE_IMG
 from model.User import Customer
 from model.Address import Address
+from utility.constant import BASE_URL
 from utility.payload import address_object_to_json
 from db import db
 
-user_blueprint = Blueprint('authentication', __name__, url_prefix=f'{BASE_URL}user')
+user_blueprint = Blueprint('authentication', __name__, url_prefix=f"{BASE_URL}user")
 
 
 @user_blueprint.route('/login', methods=['POST'])
@@ -37,7 +38,8 @@ def signup():
         customer = Customer(username=request.form['username'], title=request.form['title'], email=request.form['email'],
                             phone=request.form['phone'], first_name=request.form['first_name'], dob=request.form['dob'],
                             last_name=request.form['last_name'], middle_name=request.form['middle_name'],
-                            gender=request.form['gender'], password=request.form['password'], profile_image_url=DEFAULT_PROFILE_IMG)
+                            gender=request.form['gender'], password=request.form['password'],
+                            profile_image_url='DEFAULT_PROFILE_IMG')
         customer.save_to_db()
         return 'Signup Successful'
 

@@ -1,16 +1,10 @@
 
-E
-scripts/migrations.sh,1/8/188a3d258cb05581050002359fb9b78f125c8c3a
 e
 5migrations/versions/8085fdc7d7c6_initial_migration.py,c/5/c51bb424648e7faa34d246b5f4763cafe886f470
 5
 db.py,d/8/d86d66a0d8c35e16e2714322784e39cea9db048a
 C
 utility/__init__.py,9/2/9239fd6ea5713b4b47208e4e15ab0ff51e640a43
-@
-requirements.txt,1/9/19359a61ae2446b51b549167b014da2fcf265768
-C
-utility/constant.py,3/3/333e7ab71b268c088c1bc4cdb162348f13dbb3c5
 =
 model/User.py,f/d/fde803c403ebff814e290fce7e9568597dfe5ab2
 O
