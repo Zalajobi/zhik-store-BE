@@ -18,30 +18,31 @@ user_blueprint = Blueprint('authentication', __name__, url_prefix=f"{BASE_URL}us
 
 @user_blueprint.route('/login', methods=['POST'])
 def login():
-    print(f"Username {request.form['username']} Password {request.form['username']}")
+    content = request.json
 
-    current_customer = Customer.find_by_username(request.form['username']) or \
-                       Customer.find_by_email(request.form['username'])
+    current_customer = Customer.find_by_username(content['username']) or \
+                       Customer.find_by_email(content['username'])
 
     if current_customer is None:
         return 'Invalid Username or Email, Please check credentials'
-    elif check_password_hash(current_customer.password, request.form['password']):
+    elif check_password_hash(current_customer.password, content['password']):
         return jsonify(access_token=create_access_token(identity=current_customer.username,
                                                         expires_delta=datetime.timedelta(hours=6, minutes=30)))
 
 
 @user_blueprint.route('/signup', methods=['POST'])
 def signup():
-    current_customer = Customer.find_by_username(request.form['username']) or \
-                       Customer.find_by_email(request.form['username'])
-    if current_customer is not None:
-        return f"User with {request.form['username']} or {request.form['email']} already exists, Try Again..."
-    else:
+    content = request.json
+    current_customer = Customer.find_by_username(content['username']) or \
+                       Customer.find_by_email(content['username'])
 
-        customer = Customer(username=request.form['username'], title=request.form['title'], email=request.form['email'],
-                            phone=request.form['phone'], first_name=request.form['first_name'], dob=request.form['dob'],
-                            last_name=request.form['last_name'], middle_name=request.form['middle_name'],
-                            gender=request.form['gender'], password=request.form['password'],
+    if current_customer is not None:
+        return f"User with {content['username']} or {content['email']} already exists, Try Again..."
+    else:
+        customer = Customer(username=content['username'], title=content['title'], email=content['email'],
+                            phone=str(content['phone']), first_name=content['first_name'], dob=content['dob'],
+                            last_name=content['last_name'], middle_name=content['middle_name'],
+                            gender=content['gender'], password=content['password'],
                             profile_image_url=DEFAULT_PROFILE_IMG)
         customer.save_to_db()
         return 'Signup Successful'
