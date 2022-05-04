@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, send_from_directory, jsonify
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
@@ -10,11 +12,14 @@ import os
 from customers.views.address import address_blueprint
 from customers.views.customer import user_blueprint
 from db import db
-from model.User import Customer
-from model.Address import Address
 from utility.constant import DATABASE_URL, SECRET_KEY
 from utility.environ import set_environment_variables
-# from utility.libraries import imagekit
+
+# Models
+from model.User import Customer
+from model.Address import Address
+from model.Socials import Socials
+from model.Product import Product, ProductImages
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
@@ -46,18 +51,35 @@ imagekit = ImageKit(private_key=os.getenv('IMAGEKIT_PRIVATE_KEY'), public_key=os
 
 @app.route('/', methods=['GET'])
 def upload_file():
-    image = send_from_directory('static', 'image/default_profile_pic.jpeg')
+    # image = send_from_directory('static', 'image/default_profile_pic.jpeg')
 
-    imagekit_url = imagekit.upload(
-        file=open('static/image/default_profile_pic.jpeg', "rb"),
-        file_name="profile_pic.jpg",
-        options={
-            "response_fields": ["is_private_file", "tags"],
-            "tags": ["profile_pic", "username"]
-        },
-    )
+    # imagekit_url = imagekit.upload(
+    #     file=open('static/image/default_profile_pic.jpeg', "rb"),
+    #     file_name="profile_pic.jpg",
+    #     options={
+    #         "response_fields": ["is_private_file", "tags"],
+    #         "tags": ["profile_pic", "username"]
+    #     },
+    # )
 
-    return jsonify(imagekit_url)
+    # open_json = open('static/data/json/address_data.json')
+    # data = json.load(open_json)
+    #
+    # all_customer = Customer.get_all_customers()
+    #
+    # for customer in all_customer:
+    #     for all_address in data:
+    #         address = Address(perm_address=all_address['perm_address'], country=all_address['country'],
+    #                           state=all_address['state'],house_number=all_address['house_number'],
+    #                           flat_number=all_address['flat_number'],zip_code=all_address['zip_code'],
+    #                           username=customer.username)
+    #         address.save_to_db()
+    #
+    #         print(f"Username {customer.username} Permanent Address {address.perm_address}")
+
+
+    # return jsonify(imagekit_url)
+    return 'Welcome to ZhikStores'
 
 
 def dump_response(response):

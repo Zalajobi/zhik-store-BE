@@ -1,10 +1,11 @@
 from datetime import datetime
-
-import dob as dob
 from werkzeug.security import generate_password_hash
-from sqlalchemy.dialects.postgresql import UUID
-from db import db
+from .Socials import Socials
+from .Address import Address
 import uuid
+from sqlalchemy.dialects.postgresql import UUID
+
+from db import db
 
 
 class Customer(db.Model):
@@ -19,10 +20,12 @@ class Customer(db.Model):
     gender = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(60), nullable=False, unique=True)
     phone = db.Column(db.String(60), nullable=False, unique=True)
-    password = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(150), nullable=False)
     date_created = db.Column(db.Date(), nullable=False, default=datetime.utcnow())
     profile_image_url = db.Column(db.String(255), nullable=True)
-    # address = db.relationship("address", backref='customer', lazy=True, cascade="all,delete")
+    socials_id = db.Column(UUID(as_uuid=True), db.ForeignKey('social_accounts.id'), nullable=True)
+    # social_accounts_id = db.relationship('Socials', backref="customer", lazy=True, cascade="all,delete")
+    address = db.relationship("Address", backref='customer', lazy=True, cascade="all,delete")
 
     def __init__(self, first_name, last_name, middle_name, username, email, phone, password, title, gender, profile_image_url, dob):
         self.first_name = first_name
@@ -36,6 +39,7 @@ class Customer(db.Model):
         self.gender = gender
         self.profile_image_url = profile_image_url
         self.dob = dob
+        self.socials_id = None
 
     def __repr__(self):
         return '<username {}>'.format(self.username)
@@ -44,7 +48,8 @@ class Customer(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update_db_data(self):
+    @staticmethod
+    def update_db_data():
         db.session.commit()
 
     @classmethod

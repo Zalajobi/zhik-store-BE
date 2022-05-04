@@ -5,8 +5,6 @@ e
 db.py,d/8/d86d66a0d8c35e16e2714322784e39cea9db048a
 C
 utility/__init__.py,9/2/9239fd6ea5713b4b47208e4e15ab0ff51e640a43
-=
-model/User.py,f/d/fde803c403ebff814e290fce7e9568597dfe5ab2
 O
 static/data/json/customer5.json,5/b/5b4b4f81a86c45b551476f8876634b6ce6c13de6
 O
@@ -16,12 +14,4 @@ O
 O
 static/data/json/customer2.json,f/7/f71113be0171370d5515ce7a3e3f9bbad78bad35
 N
-static/data/json/customer.json,f/2/f2f46e6f24e0216aecd554e9c18c4485c383ec23
-N
 static/data/json/zalajobi.json,8/2/82310d717258b9d88ca82b7027915f5498ead48f
-M
-static/data/json/address.json,8/4/849b0a783545939fd094ae8a80a7e6977e0c8688
-N
-static/data/json/address2.json,5/d/5d11db5a7b643d11f74942d4fbef20b60327da35
-R
-"static/data/json/address-main.json,8/c/8cd696380dd4d0808f26166e4ace1c2c83382af0
