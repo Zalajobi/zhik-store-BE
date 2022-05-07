@@ -1,13 +1,17 @@
 import datetime
-import os
+
 from flask import Blueprint, request, jsonify
 from werkzeug.security import check_password_hash
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
-from imagekitio import ImageKit
+from email.message import EmailMessage
+from werkzeug.security import generate_password_hash
 
 from model.User import Customer
 from model.Address import Address
-from utility.constant import BASE_URL, DEFAULT_PROFILE_IMG
+from service.mailTemplates import reset_password_email_template
+from service.sendMail import sendmail
+from utility.constant import BASE_URL, DEFAULT_PROFILE_IMG, MAIL_PASSWORD, MAIL_USERNAME
+from utility.libraries import setup_imageKit
 from utility.payload import address_object_to_json
 from db import db
 
@@ -19,7 +23,6 @@ user_blueprint = Blueprint('authentication', __name__, url_prefix=f"{BASE_URL}us
 @user_blueprint.route('/login', methods=['POST'])
 def login():
     content = request.json
-
     current_customer = Customer.find_by_username(content['username']) or \
                        Customer.find_by_email(content['username'])
 
@@ -28,6 +31,8 @@ def login():
     elif check_password_hash(current_customer.password, content['password']):
         return jsonify(access_token=create_access_token(identity=current_customer.username,
                                                         expires_delta=datetime.timedelta(hours=6, minutes=30)))
+
+    return "Invalid Username/Email or Password, Please check credentials"
 
 
 @user_blueprint.route('/signup', methods=['POST'])
@@ -74,8 +79,7 @@ def get_user_profile():
 def upload_profile_picture():
     username = get_jwt_identity()
     image_file = request.files['image']
-    imagekit = ImageKit(private_key=os.getenv('IMAGEKIT_PRIVATE_KEY'), public_key=os.getenv('IMAGEKIT_PUBLIC_KEY'),
-                        url_endpoint=os.getenv('IMAGEKIT_URL_ENDPOINT'))
+    imagekit = setup_imageKit()
 
     customer = Customer.find_by_username(username)
 
@@ -95,6 +99,38 @@ def upload_profile_picture():
         print('Image Upload Failed')
 
     return "Image Upload Failed"
+
+
+@user_blueprint.route('/password/reset', methods=['POST'])
+def reset_password():
+    msg = EmailMessage()
+    email = request.json['email']
+    reset_password_account = Customer.find_by_email(email)
+    if reset_password_account is not None:
+        password_reset_token = create_access_token(identity=email,
+                                                   expires_delta=datetime.timedelta(hours=6, minutes=30))
+        msg['Subject'] = 'Reset Password'
+        msg['FROM'] = 'zhikrullah.ranti@gmail.com'
+        msg['To'] = email
+        msg.set_content(reset_password_email_template(f'http://localhost:3000/user/edit/password?token={password_reset_token}'), subtype='html')
+        sendmail(msg)
+        return jsonify(resetToken=password_reset_token)
+    return f"No user with {email}"
+
+
+@user_blueprint.route('/password/reset/email_reset', methods=['POST'])
+@jwt_required()
+def reset_password_via_email():
+    email = get_jwt_identity()
+    password = request.json['password']
+
+    try:
+        reset_password_account = Customer.find_by_email(email)
+        reset_password_account.password = generate_password_hash(password)
+        db.session.commit()
+        return 'Password reset successful'
+    except:
+        return 'Encountered error while updating password'
 
 
 @user_blueprint.route('/hello', methods=['GET'])
