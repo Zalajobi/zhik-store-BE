@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('product',
     sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
     sa.Column('seller_username', sa.String(length=60), nullable=True),
-    sa.Column('name', sa.String(length=60), nullable=False),
+    sa.Column('name', sa.String(length=1000), nullable=False),
     sa.Column('categories', sa.String(length=60), nullable=False),
     sa.Column('price', sa.Float(), nullable=False),
     sa.Column('discount', sa.Float(), nullable=True),

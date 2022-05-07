@@ -14,3 +14,6 @@ def set_environment_variables():
     os.environ['IMAGEKIT_PUBLIC_KEY'] = 'public_cMLW/yO+SwcUyNciAsBgMY8tq5E='
     os.environ['IMAGEKIT_PRIVATE_KEY'] = 'private_prDlb8HOrY9Z/mfviw2HLtd93r0='
     os.environ['DEFAULT_PROFILE_IMG'] = 'https://ik.imagekit.io/zalajobi/zhik-store/default_profile_pic_y4-z9eBo7.jpeg?ik-sdk-version=javascript-1.4.3&updatedAt=1651485516772'
+    os.environ['MAIL_USERNAME'] = 'zhikrullah.ranti@gmail.com'
+    os.environ['Mail_PASSWORD'] = 'nqisvjygyhtspqvh'
+    os.environ['JWT_SECRET_KEY'] = '5bc83001-8291-487e-84dd-5d98886cf037'
