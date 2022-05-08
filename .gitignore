@@ -120,7 +120,7 @@ venv.bak/
 
 # Rope project settings
 .ropeproject
-utility/environ.py
+app/utility/environ.py
 
 # mkdocs documentation
 /site
