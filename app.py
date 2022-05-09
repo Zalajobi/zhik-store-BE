@@ -17,6 +17,8 @@ from model.User import Customer
 from model.Address import Address
 from model.Socials import Socials
 from model.Product import Product, ProductImages
+from model.Provider import ProviderTable
+from model.Departments import DepartmentTable
 from utility.libraries import setup_imageKit
 
 app = Flask(__name__)
