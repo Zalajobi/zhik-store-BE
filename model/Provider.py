@@ -1,6 +1,6 @@
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
-from app.db import db
+from db import db
 
 
 class ProviderTable(db.Model):
