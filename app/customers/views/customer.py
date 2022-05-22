@@ -6,14 +6,14 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 from email.message import EmailMessage
 from werkzeug.security import generate_password_hash
 
-from model.User import Customer
-from model.Address import Address
-from service.mailTemplates import reset_password_email_template
-from service.sendMail import sendmail
-from utility.constant import BASE_URL, DEFAULT_PROFILE_IMG, MAIL_PASSWORD, MAIL_USERNAME
+from app.model.User import Customer
+from app.model.Address import Address
+from app.service.mailTemplates import reset_password_email_template
+from app.service.sendMail import sendmail
+from utility.constant import BASE_URL, DEFAULT_PROFILE_IMG
 from utility.libraries import setup_imageKit
 from utility.payload import address_object_to_json
-from db import db
+from app.db import db
 
 # from app import imagekit
 

@@ -2,7 +2,7 @@ from datetime import datetime
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
 
-from db import db as database
+from app.db import db as database
 
 
 class UnitTable(database.Model):

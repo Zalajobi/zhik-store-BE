@@ -1,12 +1,8 @@
-import os
-from crypt import methods
-
 import jsonify as jsonify
 from flask import request, Blueprint, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from db import db
-from model.User import Customer
-from model.Address import Address
+from app.db import db
+from app.model.Address import Address
 from utility.constant import BASE_URL
 from utility.payload import address_paginate_object_to_json
 

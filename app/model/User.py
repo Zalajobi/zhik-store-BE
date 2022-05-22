@@ -1,11 +1,8 @@
 from datetime import datetime
 from werkzeug.security import generate_password_hash
-from .Socials import Socials
-from .Address import Address
-import uuid
 from sqlalchemy.dialects.postgresql import UUID
 
-from db import db
+from app.db import db
 
 
 class Customer(db.Model):

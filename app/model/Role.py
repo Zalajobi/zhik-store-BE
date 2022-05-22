@@ -3,8 +3,7 @@ import uuid
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declared_attr
 
-from db import db as database
-from model.enum_static import ProviderRoles
+from app.db import db as database
 
 
 class RoleTable(database.Model):

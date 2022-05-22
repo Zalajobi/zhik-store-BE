@@ -1,14 +1,14 @@
 from flask import jsonify, request
 
-from db import db as database
+from app.db import db as database
 
-from admin import admin as admin_blueprint
-from model.Departments import DepartmentTable
-from model.Provider import ProviderTable
-from model.Role import RoleTable
-from model.Unit import UnitTable
-from admin.utils import generate_random_password
-from model.enum_static import ProviderRoles
+from app.admin import admin as admin_blueprint
+from app.model.Departments import DepartmentTable
+from app.model.Provider import ProviderTable
+from app.model.Role import RoleTable
+from app.model.Unit import UnitTable
+from app.admin.utils import generate_random_password
+from app.model.enum_static import ProviderRoles
 
 
 @admin_blueprint.route('/provider/register', methods=['GET', 'POST'])

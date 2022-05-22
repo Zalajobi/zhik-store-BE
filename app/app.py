@@ -1,30 +1,30 @@
-from flask import Flask, session
+from flask import Flask
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 from flask_session import Session
-from db import db
+from app.db import db
 
 # Blueprint
-from customers.views.address import address_blueprint
-from customers.views.customer import user_blueprint
+from app.customers.views.address import address_blueprint
+from app.customers.views.customer import user_blueprint
 # from admin.views.providers import admin_provider_blueprint as admin_blueprint
-from admin import admin as admin_blueprint
+from app.admin import admin as admin_blueprint
 
 # utilities
-from utility.constant import DATABASE_URL, SECRET_KEY, JWT_SECRET_KEY
+from utility.constant import SECRET_KEY, JWT_SECRET_KEY
 from utility.environ import set_environment_variables
 
 # Models
-from model.enum_static import Hostpital_Department, HospitalUnit, ProviderRoles
-from model.User import Customer
-from model.Address import Address
-from model.Socials import Socials
-from model.Product import Product, ProductImages
-from model.Provider import ProviderTable
-from model.Departments import DepartmentTable
-from model.Unit import UnitTable
-from model.Role import RoleTable
+from app.model.Unit import UnitTable
+from app.model.Departments import DepartmentTable
+from app.model.Role import RoleTable
+from app.model.Provider import ProviderTable
+from app.model.Product import ProductImages, Product
+from app.model.Socials import Socials
+from app.model.Address import Address
+from app.model.User import Customer
+
 from utility.libraries import setup_imageKit
 
 app = Flask(__name__)

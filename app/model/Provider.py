@@ -1,7 +1,7 @@
 import uuid
 from sqlalchemy.dialects.postgresql import UUID
 # from werkzeug.security import generate_password_hash
-from db import db
+from app.db import db
 
 
 class ProviderTable(db.Model):
