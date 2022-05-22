@@ -2,27 +2,32 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
-from email.message import EmailMessage
+from db import db
 
+# Blueprint
 from customers.views.address import address_blueprint
 from customers.views.customer import user_blueprint
-from db import db
-from service.mailTemplates import reset_password_email_template
-from service.sendMail import sendmail
-from utility.constant import DATABASE_URL, SECRET_KEY, MAIL_USERNAME, MAIL_PASSWORD, JWT_SECRET_KEY
+# from admin.views.providers import admin_provider_blueprint as admin_blueprint
+from admin import admin as admin_blueprint
+
+# utilities
+from utility.constant import DATABASE_URL, SECRET_KEY, JWT_SECRET_KEY
 from utility.environ import set_environment_variables
 
 # Models
+from model.enum_static import Hostpital_Department, HospitalUnit, ProviderRoles
 from model.User import Customer
 from model.Address import Address
 from model.Socials import Socials
 from model.Product import Product, ProductImages
 from model.Provider import ProviderTable
 from model.Departments import DepartmentTable
+from model.Unit import UnitTable
+from model.Role import RoleTable
 from utility.libraries import setup_imageKit
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/zhik-store'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.secret_key = SECRET_KEY
@@ -42,6 +47,7 @@ def create_tables():
 # Blueprints
 app.register_blueprint(user_blueprint)
 app.register_blueprint(address_blueprint)
+app.register_blueprint(admin_blueprint)
 set_environment_variables()
 
 # Third Party Libraries
@@ -50,66 +56,15 @@ setup_imageKit()
 
 @app.route('/', methods=['GET'])
 def upload_file():
-    # image = send_from_directory('static', 'image/default_profile_pic.jpeg')
-
-    # imagekit_url = imagekit.upload(
-    #     file=open('static/image/default_profile_pic.jpeg', "rb"),
-    #     file_name="profile_pic.jpg",
-    #     options={
-    #         "response_fields": ["is_private_file", "tags"],
-    #         "tags": ["profile_pic", "username"]
-    #     },
-    # )
-
-    # open_json = open('static/data/json/address_data.json')
-    # data = json.load(open_json)
+    # roles = HospitalUnit
     #
-    # all_customer = Customer.get_all_customers()
+    # for dept in roles:
+    #     hospital_unit = UnitTable(name=dept.value)
+    #     hospital_unit.save_to_db()
     #
-    # for customer in all_customer:
-    #     for all_address in data:
-    #         address = Address(perm_address=all_address['perm_address'], country=all_address['country'],
-    #                           state=all_address['state'],house_number=all_address['house_number'],
-    #                           flat_number=all_address['flat_number'],zip_code=all_address['zip_code'],
-    #                           username=customer.username)
-    #         address.save_to_db()
-    #
-    #         print(f"Username {customer.username} Permanent Address {address.perm_address}")
+    #     print(f"Saved {hospital_unit.name} to Database")
 
-    # return jsonify(imagekit_url)
-
-    # open_json = open('static/data/json/product.json')
-    # data = json.load(open_json)
-    #
-    # for product in data:
-    #     new_product = Product(seller_username='zalajobi', name=product['name'], categories=product['categories'],
-    #                           price=product['price'], discount=product['discount'], dimension='200*200',
-    #                           description=product['description'], weight=product['weight'],
-    #                           short_description=product['short_description'])
-    #
-    #     new_product.save_to_db()
-    #
-    #     print(f"Product Name {new_product.name} Price{new_product.price}")
-    # msg = Message('mail title', sender='igbalajobi.shikruiiahr@student.funaab.edu.ng', recipients=['zalajobi@gmail.com'])
-    # msg.body = 'Body of the email to send'
-    # mail.send(msg)
-
-    # Send Email Works
-    # smtp_server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-    # smtp_server.ehlo()
-    # smtp_server.login('zhikrullah.ranti@gmail.com', 'nqisvjygyhtspqvh')
-    # smtp_server.sendmail('zhikrullah.ranti@gmail.com', 'zalajobi@gmail.com', 'Mail Sent from ZhikStore')
-
-    msg = EmailMessage()
-
-    msg['Subject'] = 'Reset Password'
-    msg['FROM'] = 'zhikrullah.ranti@gmail.com'
-    msg['To'] = 'zalajobi@gmail.com'
-    msg.set_content(reset_password_email_template('http://localhost:3000/login'), subtype='html')
-    sendmail(msg)
-    return 'Mail Sent...'
-
-    # return 'Welcome to ZhikStores'
+    return 'Welcome to ZhikStores'
 
 
 def dump_response(response):

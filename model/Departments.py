@@ -14,5 +14,12 @@ class DepartmentTable(db.Model):
 
     providers = db.relationship('ProviderTable', backref='department', lazy=True)
 
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
+
     def __repr__(self):
         return '<Department: {}>'.format(self.name)

@@ -1,6 +1,4 @@
 
-e
-5migrations/versions/8085fdc7d7c6_initial_migration.py,c/5/c51bb424648e7faa34d246b5f4763cafe886f470
 C
 utility/__init__.py,9/2/9239fd6ea5713b4b47208e4e15ab0ff51e640a43
 O
@@ -13,3 +11,7 @@ O
 static/data/json/customer2.json,f/7/f71113be0171370d5515ce7a3e3f9bbad78bad35
 N
 static/data/json/zalajobi.json,8/2/82310d717258b9d88ca82b7027915f5498ead48f
+J
+scripts/set_environment.sh,4/7/47a9e7a699d0d6ac4777f39791b48b08f463b185
+E
+scripts/migrations.sh,1/8/188a3d258cb05581050002359fb9b78f125c8c3a

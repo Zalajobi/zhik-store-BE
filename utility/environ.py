@@ -6,6 +6,7 @@ def set_environment_variables():
     os.environ['SECRET_KEY'] = 'OLIxKOeueM-pIpOABjnBL-OvNN2Md8lB-TlKeHHJKUj-mQVlbMVT2T-0WORlcJGdu-mgZFCjrpEb-FlbKG9mIKm-nuMIBqjSup-UiFSQeavIx'
     os.environ['DATABASE_URL'] = 'postgresql://postgres:postgres@localhost:5432/zhik-store'
     os.environ['BASE_URL'] = '/api/v1/zhik/store/commerce/'
+    os.environ['HOSPITAL_BASE_URL'] = '/api/v1/zhik-hospital/'
     os.environ['CLOUDINARY_SECRET'] = 'tSbI9om-kAb9aqd-Xa4hejtCSaE'
     os.environ['CLOUDINARY_NAME'] = 'zalajobi'
     os.environ['CLOUDINARY_URL'] = 'cloudinary://419976814271589:tSbI9om-kAb9aqd-Xa4hejtCSaE@zalajobi?cname=zhik-stores&upload_prefix=profile-image'

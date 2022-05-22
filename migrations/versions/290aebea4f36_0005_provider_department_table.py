@@ -36,7 +36,7 @@ def upgrade():
     sa.Column('last_name', sa.String(length=60), nullable=False),
     sa.Column('dob', sa.String(length=60), nullable=False),
     sa.Column('gender', sa.String(length=60), nullable=False),
-    sa.Column('password', sa.String(length=60), nullable=False),
+    sa.Column('password', sa.String(length=255), nullable=False),
     sa.Column('title', sa.String(length=60), nullable=False),
     sa.Column('staff_id', sa.String(length=60), nullable=False),
     sa.Column('is_consultant', sa.Boolean(), nullable=True),
