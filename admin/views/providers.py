@@ -18,7 +18,7 @@ def register():
         units = []
         departments = []
 
-        provider_roles = database.session.query(RoleTable).filter_by(RoleTable.name != ProviderRoles.ADMIN.value).order_by(RoleTable.name.asc()).all()
+        provider_roles = database.session.query(RoleTable).filter(RoleTable.name != ProviderRoles.ADMIN.value).order_by(RoleTable.name.asc()).all()
         unit_table = database.session.query(UnitTable).order_by(UnitTable.name.asc()).all()
         department_table = database.session.query(DepartmentTable).order_by(DepartmentTable.name.asc()).all()
 

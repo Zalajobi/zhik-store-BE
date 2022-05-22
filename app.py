@@ -1,7 +1,8 @@
-from flask import Flask
+from flask import Flask, session
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+from flask_session import Session
 from db import db
 
 # Blueprint
@@ -32,11 +33,14 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 app.secret_key = SECRET_KEY
 app.config["JWT_SECRET_KEY"] = JWT_SECRET_KEY
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
 
 db.init_app(app)
 migrate = Migrate(app, db)
 jwt = JWTManager(app)
 CORS(app)
+Session(app)
 
 
 @app.before_first_request
