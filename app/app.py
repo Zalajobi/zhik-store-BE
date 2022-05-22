@@ -8,8 +8,8 @@ from app.db import db
 # Blueprint
 from app.customers.views.address import address_blueprint
 from app.customers.views.customer import user_blueprint
-# from admin.views.providers import admin_provider_blueprint as admin_blueprint
 from app.admin import admin as admin_blueprint
+from app.auth import auth as auth_blueprint
 
 # utilities
 from utility.constant import SECRET_KEY, JWT_SECRET_KEY
@@ -52,6 +52,8 @@ def create_tables():
 app.register_blueprint(user_blueprint)
 app.register_blueprint(address_blueprint)
 app.register_blueprint(admin_blueprint)
+app.register_blueprint(auth_blueprint)
+
 set_environment_variables()
 
 # Third Party Libraries
