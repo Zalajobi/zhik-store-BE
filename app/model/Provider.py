@@ -42,9 +42,11 @@ class ProviderTable(db.Model):
     def find_by_username(cls, username):
         return cls.query.filter_by(username=username).first()
 
+    @classmethod
     def find_by_email(cls, email):
         return cls.query.filter_by(email=email).first()
 
+    @classmethod
     def find_by_id(cls, id):
         return cls.query.filter_by(id=id).first()
 
