@@ -4,6 +4,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declared_attr
 
 from app.db import db as database
+from app.model.Provider import ProviderTable
 
 
 class RoleTable(database.Model):

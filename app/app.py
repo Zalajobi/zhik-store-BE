@@ -10,6 +10,7 @@ from app.customers.views.address import address_blueprint
 from app.customers.views.customer import user_blueprint
 from app.admin import admin as admin_blueprint
 from app.auth import auth as auth_blueprint
+from app.dashboard import dashboard as dashboard_blueprint
 
 # utilities
 from utility.constant import SECRET_KEY, JWT_SECRET_KEY
@@ -53,6 +54,7 @@ app.register_blueprint(user_blueprint)
 app.register_blueprint(address_blueprint)
 app.register_blueprint(admin_blueprint)
 app.register_blueprint(auth_blueprint)
+app.register_blueprint(dashboard_blueprint)
 
 set_environment_variables()
 
