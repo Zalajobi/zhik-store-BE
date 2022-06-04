@@ -7,7 +7,7 @@ from app.model.Role import RoleTable
 
 @dashboard_blueprint.route('/doctor/data')
 @jwt_required()
-def get_doctors_dashboard_data():
+def get_doctors_sidebar_dashboard_data():
     username = get_jwt_identity()
     provider = ProviderTable.find_by_username(username)
 
@@ -16,4 +16,16 @@ def get_doctors_dashboard_data():
         firstName=provider.first_name,
         lastName=provider.last_name,
         staffId=provider.staff_id,
+    )
+
+
+@dashboard_blueprint.route('/doctor/get_profile/data')
+@jwt_required()
+def get_doctors_dashboard_profile_data():
+    provider = ProviderTable.find_by_username(get_jwt_identity())
+
+    return jsonify(
+        title=provider.title,
+        firstName=provider.first_name,
+        lastName=provider.last_name,
     )

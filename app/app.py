@@ -25,6 +25,8 @@ from app.model.Product import ProductImages, Product
 from app.model.Socials import Socials
 from app.model.Address import Address
 from app.model.User import Customer
+from app.model.Registration import RegistrationTable
+from app.model.Patient import PatientTable
 
 from utility.libraries import setup_imageKit
 

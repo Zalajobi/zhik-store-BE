@@ -8,9 +8,6 @@ class ProviderTable(db.Model):
     __tablename__ = 'provider'
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, nullable=False)
-    department_id = db.Column(UUID(as_uuid=True), db.ForeignKey('departments.id'))
-    unit_id = db.Column(UUID(as_uuid=True), db.ForeignKey('units.id'))
-    role_id = db.Column(UUID(as_uuid=True), db.ForeignKey('roles.id'))
     email = db.Column(db.String(60), nullable=False, unique=True)
     phone_number = db.Column(db.String(60), nullable=False)
     username = db.Column(db.String(60), nullable=False, unique=True)
@@ -22,17 +19,19 @@ class ProviderTable(db.Model):
     password = db.Column(db.String(255), nullable=False)
     title = db.Column(db.String(60), nullable=False)
     staff_id = db.Column(db.String(60), nullable=False, index=True, unique=True)
-    # serviceareas = service_area,
-    # is_consultant = db.Column(db.Boolean)
-    # specialist = db.Column(db.Boolean)
-    # provider_unit = unit,
-    # grants_appointments = db.Column(db.Boolean)
     street_address = db.Column(db.String(255), nullable=False)
     city = db.Column(db.String(60), nullable=False)
     state = db.Column(db.String(60), nullable=False)
     country = db.Column(db.String(60), nullable=False)
-    # nationality = db.Column(db.String(60), nullable=False)
     zipcode = db.Column(db.Integer)
+    profile_image_url = db.Column(db.String(255), nullable=True)
+
+    department_id = db.Column(UUID(as_uuid=True), db.ForeignKey('departments.id'))
+    unit_id = db.Column(UUID(as_uuid=True), db.ForeignKey('units.id'))
+    role_id = db.Column(UUID(as_uuid=True), db.ForeignKey('roles.id'))
+    patient_id = db.Column(UUID(as_uuid=True), db.ForeignKey('patients.id', use_alter=True))
+    patients = db.relationship('PatientTable', backref='provider_patients',
+                               lazy=True, foreign_keys=[patient_id])
 
     def save_to_db(self):
         db.session.add(self)
