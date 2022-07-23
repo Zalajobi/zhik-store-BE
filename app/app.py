@@ -1,3 +1,4 @@
+import json
 from flask import Flask
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
@@ -66,15 +67,57 @@ setup_imageKit()
 
 @app.route('/', methods=['GET'])
 def upload_file():
-    # roles = HospitalUnit
+    # open_json = open('static/data/json/patients3.json')
+    # data = json.load(open_json)
     #
-    # for dept in roles:
-    #     hospital_unit = UnitTable(name=dept.value)
-    #     hospital_unit.save_to_db()
+    # provider = ProviderTable.find_by_username("zalajobi")
+    # unit = db.session.query(UnitTable).first()
+    # registration = db.session.query(RegistrationTable).first()
     #
-    #     print(f"Saved {hospital_unit.name} to Database")
+    # for patient in data:
+    #     new_patient = PatientTable(
+    #         patient_hospital_id=patient['patient_hospital_id'],
+    #         first_name=patient['first_name'],
+    #         last_name=patient['last_name'],
+    #         middle_name=patient['middle_name'],
+    #         email=patient['email'],
+    #         phone_number=patient['phone_number'],
+    #         gender=patient['gender'],
+    #         title=patient['title'],
+    #         dob=patient['dob'],
+    #         next_of_kin_name=patient['next_of_kin_name'],
+    #         next_of_kin_phone=patient['next_of_kin_phone'],
+    #         next_of_kin_address=patient['next_of_kin_address'],
+    #         next_of_kin_gender=patient['next_of_kin_gender'],
+    #         perm_address=patient['perm_address'],
+    #         city_name=patient['city_name'],
+    #         state=patient['state'],
+    #         zip_code=patient['zip_code'],
+    #         nationality=patient['nationality'],
+    #         consultant_id=provider.id,
+    #         unit_id=unit.id,
+    #         registration='Personal Card',
+    #         patient_type='NEW',
+    #         marital_status='Single',
+    #         religion='Islam',
+    #         occupation='Software Engineer',
+    #         next_of_kin_relationship='Brother',
+    #         next_of_kin_occupation='Software Engineer',
+    #     )
+    #
+    #     new_patient.save_to_db()
+    #     print(f"Username {new_patient.first_name} Permanent Address {new_patient.last_name}")
 
-    return 'Welcome to ZhikStores'
+    # for customer in all_customer:
+    #     for all_address in data:
+    #         address = Address(perm_address=all_address['perm_address'], country=all_address['country'],
+    #                           state=all_address['state'],house_number=all_address['house_number'],
+    #                           flat_number=all_address['flat_number'],zip_code=all_address['zip_code'],
+    #                           username=customer.username)
+    #         address.save_to_db()
+    #
+    #         print(f"Username {customer.username} Permanent Address {address.perm_address}")
+    return f'Welcome'
 
 
 def dump_response(response):

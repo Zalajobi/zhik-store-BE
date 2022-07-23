@@ -22,10 +22,11 @@ class PatientTable(database.Model):
     marital_status = database.Column(database.String(30))
     religion = database.Column(database.String(30))
     occupation = database.Column(database.String(100))
+    status=database.Column(database.Boolean(), default=False)
 
     # Registration Information
-    patient_type = database.Column(database.String(10), nullable=False)
-    registration_id = database.Column(UUID(as_uuid=True), database.ForeignKey('registration.id'))
+    patient_type = database.Column(database.String(30), nullable=False)
+    registration = database.Column(database.String(60), nullable=False)
     unit_id = database.Column(UUID(as_uuid=True), database.ForeignKey('units.id'))
     consultant_id = database.Column(UUID(as_uuid=True), database.ForeignKey('provider.id', use_alter=True))
 
@@ -34,15 +35,19 @@ class PatientTable(database.Model):
     next_of_kin_phone = database.Column(database.String(30))
     next_of_kin_address = database.Column(database.String(200))
     next_of_kin_relationship = database.Column(database.String(30))
-    next_of_kin_gender = database.Column(database.String(10))
+    next_of_kin_gender = database.Column(database.String(100))
     next_of_kin_occupation = database.Column(database.String(100))
 
     # Contact Information
     perm_address = database.Column(database.String(200))
     city_name = database.Column(database.String(60))
     state = database.Column(database.String(60))
-    zip_code = database.Column(database.String(10))
+    zip_code = database.Column(database.String(60))
     nationality = database.Column(database.String(60))
 
     consultant = database.relationship('ProviderTable', foreign_keys=[consultant_id], cascade="all,delete")
     units = database.relationship('UnitTable', foreign_keys=[unit_id], cascade="all,delete")
+
+    def save_to_db(self):
+        database.session.add(self)
+        database.session.commit()
